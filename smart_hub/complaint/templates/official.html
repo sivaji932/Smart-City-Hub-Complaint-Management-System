@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Dashboard - Smart Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-brand i {
+            font-size: 1.8rem;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .area-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .area-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .area-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .area-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .area-stats {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .stat-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .stat-badge.total {
+            background: #e6fffa;
+            color: #234e52;
+        }
+        
+        .stat-badge.open {
+            background: #fed7d7;
+            color: #c53030;
+        }
+        
+        .stat-badge.progress {
+            background: #feebc8;
+            color: #dd6b20;
+        }
+        
+        .stat-badge.resolved {
+            background: #c6f6d5;
+            color: #38a169;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+        
+        tr:hover {
+            background-color: #f7fafc;
+        }
+        
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .status.open {
+            background: #fed7d7;
+            color: #c53030;
+        }
+        
+        .status.in-progress {
+            background: #feebc8;
+            color: #dd6b20;
+        }
+        
+        .status.resolved {
+            background: #c6f6d5;
+            color: #38a169;
+        }
+        
+        .edit-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+        
+        .edit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+        
+        .no-complaints {
+            text-align: center;
+            color: #718096;
+            font-size: 1.1rem;
+            padding: 3rem;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .no-complaints i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e0;
+        }
+        
+        .overall-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card.total i { color: #667eea; }
+        .stat-card.open i { color: #e53e3e; }
+        .stat-card.progress i { color: #dd6b20; }
+        .stat-card.resolved i { color: #38a169; }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .area-section {
+                padding: 1.5rem;
+            }
+            
+            .area-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .area-stats {
+                flex-wrap: wrap;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+            
+            .overall-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <i class="fas fa-user-shield"></i>
+                Smart Hub - Official Portal
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Welcome, Official</span>
+                </div>
+                <a href="{% url 'login' %}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Official Dashboard</h1>
+            <p class="dashboard-subtitle">Manage and resolve citizen complaints across different areas</p>
+        </div>
+
+        <!-- Overall Statistics -->
+        <div class="overall-stats">
+            <div class="stat-card total">
+                <i class="fas fa-clipboard-list"></i>
+                <div class="stat-number">{{ total_complaints|default:0 }}</div>
+                <div class="stat-label">Total Complaints</div>
+            </div>
+            <div class="stat-card open">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="stat-number">{{ open_complaints|default:0 }}</div>
+                <div class="stat-label">Open</div>
+            </div>
+            <div class="stat-card progress">
+                <i class="fas fa-clock"></i>
+                <div class="stat-number">{{ progress_complaints|default:0 }}</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card resolved">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-number">{{ resolved_complaints|default:0 }}</div>
+                <div class="stat-label">Resolved</div>
+            </div>
+        </div>
+
+        <!-- Area-wise Complaints -->
+        {% for area, complaints in area_complaints.items %}
+        <div class="area-section">
+            <div class="area-header">
+                <h3 class="area-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ area }}
+                </h3>
+                <div class="area-stats">
+                    <div class="stat-badge total">{{ complaints|length }} Total</div>
+                </div>
+            </div>
+            {% if complaints %}
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Issue</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Date Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td><strong>#{{ c.complaint_id }}</strong></td>
+                            <td>{{ c.issue }}</td>
+                            <td>{{ c.description|truncatechars:50 }}</td>
+                            <td>{{ c.category }}</td>
+                            <td>
+                                <span class="status {{ c.complaint_status|lower|cut:' ' }}">
+                                    {{ c.complaint_status }}
+                                </span>
+                            </td>
+                            <td>{{ c.date_time|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'edit_complaint' c.complaint_id %}" class="edit-btn">
+                                    <i class="fas fa-edit"></i>
+                                    Edit Status
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="no-complaints">
+                <i class="fas fa-clipboard-check"></i>
+                <h4>No complaints in this area</h4>
+                <p>All complaints have been resolved or no complaints have been submitted yet.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+/smartcityhub/
+.env
+db.sqlite3
+Users Details.txt
+smart_hub.log
+__pycache__/

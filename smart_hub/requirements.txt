@@ -1,0 +1,18 @@
+# Smart City Hub - Complaint Management System
+# Requirements file for production deployment
+
+Django==5.2.4
+djangorestframework==3.16.0
+PyJWT==2.10.1
+python-dotenv==1.1.1
+requests==2.32.4
+urllib3==2.5.0
+secure-smtplib==0.1.1
+sqlparse==0.5.3
+asgiref==3.9.1
+certifi==2025.7.14
+charset-normalizer==3.4.2
+idna==3.10
+typing_extensions==4.14.1
+tzdata==2025.2
+dotenv==0.9.9

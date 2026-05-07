@@ -1,0 +1,47 @@
+# Smart Hub - Municipal Complaint Management System
+# Requirements file for production deployment
+
+# Core Django Framework
+Django==5.2.4
+djangorestframework==3.16.0
+
+# Authentication & Security
+PyJWT==2.10.1
+
+# Environment Configuration
+python-dotenv==1.1.1
+
+# HTTP Requests & API Communication
+requests==2.32.4
+urllib3==2.5.0
+
+# Email & SMTP Support
+secure-smtplib==0.1.1
+
+# Database & SQL
+sqlparse==0.5.3
+
+# Core Python Dependencies
+asgiref==3.9.1
+certifi==2025.7.14
+charset-normalizer==3.4.2
+idna==3.10
+typing_extensions==4.14.1
+tzdata==2025.2
+
+# Development Dependencies (optional)
+# Uncomment if needed for development
+# dotenv==0.9.9
+
+# Installation Instructions:
+# 1. Create virtual environment: python -m venv env
+# 2. Activate environment: 
+#    - Windows: .\env\Scripts\activate
+#    - macOS/Linux: source env/bin/activate
+# 3. Install dependencies: pip install -r requirements.txt
+# 4. Run migrations: python manage.py migrate
+# 5. Create superuser: python manage.py createsuperuser
+# 6. Run server: python manage.py runserver
+
+# Note: Make sure to configure your Gmail SMTP credentials in settings.py
+# and update ADMIN_EMAILS in .env file before deployment

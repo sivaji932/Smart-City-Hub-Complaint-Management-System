@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Dashboard - Smart Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F5F5F7;
+            --card-bg: #FFFFFF;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --accent-blue: #007AFF;
+            --accent-red: #FF3B30;
+            --accent-green: #34C759;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --border-color: #E5E5EA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Google Sans', 'Product Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding-bottom: 60px;
+        }
+        
+        .navbar {
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .nav-brand {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .nav-brand i {
+            color: var(--accent-blue);
+        }
+        
+        .logout-btn {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 16px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 980px; /* Pill shape */
+            transition: all 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+        
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .header-section {
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeUp 0.6s ease-out;
+        }
+        
+        .header-section h1 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        
+        .header-section p {
+            color: var(--text-secondary);
+            font-size: 19px;
+        }
+        
+        .user-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-info-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: #F2F2F7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            font-size: 20px;
+        }
+
+        .user-meta h3 {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .user-meta p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+            margin-bottom: 48px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: #F2F2F7;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 17px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            background: #FFFFFF;
+            border-color: var(--accent-blue);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        
+        /* Table Styles */
+        .list-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 16px;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        td {
+            padding: 20px 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 980px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-badge.open { background: rgba(255, 59, 48, 0.1); color: var(--accent-red); }
+        .status-badge.in-progress { background: rgba(255, 149, 0, 0.1); color: #FF9500; }
+        .status-badge.resolved { background: rgba(52, 199, 89, 0.1); color: var(--accent-green); }
+        
+        .action-btn {
+            border: none;
+            background: rgba(142, 142, 147, 0.1);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 980px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover:not(:disabled) {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--accent-red);
+        }
+        
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .header-section h1 { font-size: 32px; }
+            .container { padding: 20px 16px; }
+            td, th { padding: 12px 8px; font-size: 14px; }
+            .submit-btn { width: 100%; }
+            .user-card { flex-direction: column; align-items: stretch; gap: 20px; }
+            .user-info-group { width: 100%; }
+            .stat-pill { width: 100%; text-align: center; margin-top: 5px; }
+            .list-card, .form-card { padding: 20px; }
+            .nav-content { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <i class="fas fa-cubes-stacked"></i>
+                Smart Hub
+            </div>
+            <div class="nav-actions">
+                <a href="{% url 'login' %}" class="logout-btn">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>Citizen Portal</h1>
+            <p>Welcome back, {{ username }}</p>
+        </div>
+
+        <div class="user-card">
+            <div class="user-info-group">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-meta">
+                    <h3>{{ username }}</h3>
+                    <p>{{ email }}</p>
+                </div>
+            </div>
+            <div class="stat-pill" style="background:#F2F2F7; padding:8px 16px; border-radius:980px; font-size:14px; font-weight:600;">
+                {{ complaints|length }} Reports
+            </div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="section-title">New Complaint</h2>
+            <form method="POST" action="{% url 'citizen_dashboard' %}">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="full-width">
+                        <label>Issue Title</label>
+                        <input type="text" name="issue" placeholder="What's the issue?" required>
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <select name="category" required>
+                            <option value="">Select...</option>
+                            <option value="Roads">Roads & Infrastructure</option>
+                            <option value="Water">Water Supply</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Sanitation">Sanitation</option>
+                            <option value="Public Safety">Public Safety</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Location</label>
+                        <input type="text" name="area_name" placeholder="E.g., Downtown 5th Ave" required>
+                    </div>
+                    <div class="full-width">
+                        <label>Description</label>
+                        <textarea name="description" placeholder="Provide details involved..." required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    Submit Report <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="list-card">
+            <h2 class="section-title">History</h2>
+            {% if complaints %}
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Issue</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td style="color: var(--text-secondary);">#{{ c.complaint_id }}</td>
+                            <td>
+                                <div style="font-weight:600;">{{ c.issue }}</div>
+                                <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">{{ c.area_name }}</div>
+                            </td>
+                            <td>{{ c.category }}</td>
+                            <td style="color: var(--text-secondary); font-size:14px;">{{ c.date_time|date:"M d" }}</td>
+                            <td>
+                                <span class="status-badge {{ c.complaint_status|lower|cut:' ' }}">
+                                    {{ c.complaint_status|title }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if c.complaint_status == 'open' %}
+                                    <button onclick="deleteComplaint('{{ c.complaint_id }}', '{{ c.issue|escapejs }}')" class="action-btn">
+                                        Delete
+                                    </button>
+                                {% else %}
+                                    <button class="action-btn" disabled>Locked</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div style="text-align:center; padding: 40px; color:var(--text-secondary);">
+                <i class="fas fa-folder-open" style="font-size:48px; margin-bottom:16px; opacity:0.3;"></i>
+                <p>No complaints filed yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function deleteComplaint(id, title) {
+            if(confirm(`Are you sure you want to delete "${title}"?`)) {
+                // Fetch logic for deletion as per previous implementation
+                fetch(`/citizen/delete/${id}/`, {
+                    method: 'POST',
+                    headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}
+                }).then(() => window.location.reload());
+            }
+        }
+    </script>
+</body>
+</html>

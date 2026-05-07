@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hub - Sign In</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F5F5F7;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --accent-blue: #007AFF;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --input-bg: #FFFFFF;
+            --border-color: #D2D2D7;
+            --error-color: #FF3B30;
+            --success-color: #34C759;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Google Sans', 'Product Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo i {
+            font-size: 48px;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .logo p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 400;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            letter-spacing: -0.5px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 17px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            outline: none;
+            appearance: none;
+        }
+        
+        input::placeholder {
+            color: #C7C7CC;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+        
+        .input-group:focus-within i {
+            color: var(--accent-blue);
+        }
+        
+        button {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+        
+        button:hover {
+            background: #0062CC;
+            transform: scale(1.01);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .toggle {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .toggle strong {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+        
+        .toggle:hover {
+            color: var(--text-primary);
+        }
+        
+        .error, .success {
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .error {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--error-color);
+        }
+        
+        .success {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success-color);
+        }
+        
+        /* Select arrow fix */
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+            font-size: 12px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #login-form, #signup-form {
+            animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+                max-width: 92%;
+            }
+            .logo i { font-size: 40px; }
+            .logo h1 { font-size: 24px; }
+            button { padding: 14px; }
+            .logo { margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-cubes-stacked"></i>
+            <h1>Smart Hub</h1>
+            <p>Citizen Services Portal</p>
+        </div>
+        
+        {% if error %}<div class="error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>{% endif %}
+        {% if success %}<div class="success"><i class="fas fa-check-circle"></i> {{ success }}</div>{% endif %}
+
+        <!-- Login Form -->
+        <div id="login-form">
+            <h2>Welcome Back</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email Address" autocomplete="email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" autocomplete="current-password" required>
+                </div>
+                <div class="input-group select-wrapper">
+                    <i class="fas fa-user-tag"></i>
+                    <select name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="citizen">Citizen</option>
+                        <option value="admin">Official Admin</option>
+                    </select>
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+            <div class="toggle" onclick="toggleForms()">
+                New here? <strong>Create an account</strong>
+            </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signup-form" style="display:none;">
+            <h2>Create Account</h2>
+            <form method="POST" action="{% url 'signup' %}" autocomplete="off">
+                {% csrf_token %}
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Full Name" autocomplete="name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email Address" autocomplete="email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Create Password" autocomplete="new-password" required>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 13px; margin: 5px 0; text-align: center;">
+                    Registration is exclusive to citizens.
+                </p>
+                <button type="submit">Create Account</button>
+            </form>
+            <div class="toggle" onclick="toggleForms()">
+                Already have an account? <strong>Sign In</strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
